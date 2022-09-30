@@ -1,6 +1,6 @@
-#import mysql.connector as mys
-#mycon = mys.connect(host='localhost',user='root',password='lms')
-#mycur = mycon.cursor()
+import mysql.connector as mys
+mycon = mys.connect(host='localhost',user='root',password='sharma@1999')
+mycur = mycon.cursor()
 
 
 def search_book():
@@ -36,8 +36,25 @@ def return_book():
   mycur.execute(query)
   mycur.commit()
 
-def update_inventory():
-  print('a')
+def update_books():
+  print(
+  '  [1] Add Books \n'
+  '  [2] Delete Books \n'
+  '  [3] Modify Details of Books')
+  x = int(input('Enter Desired Number Option : '))
+  if x == 1:
+    print("Type 'EXIT' whenever you wish to exit the menu.")
+    while True:
+      i = input('Enter Book ID : ')
+      if i.upper() == 'EXIT':
+        break
+      nm = input('Enter Book Name : ').upper()
+      if nm.upper() == 'EXIT':
+        break
+      an = input('Enter Author Name : ').capitalize()
+      if an.upper() == 'EXIT':
+        break
+     
 
 
 print(
