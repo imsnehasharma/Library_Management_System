@@ -10,7 +10,7 @@ def search_book():
   elif a.isnumeric():
     query = "select * from books where id = {}".format(int(a))
   else :
-    query = "select * from books where name = {}".format(a)
+    query = "select * from books where name = '{}'".format(a)
   mycur.execute(query)
   dt = mycur.fetchall()
   print('-'*80)
@@ -38,10 +38,11 @@ def search_user():
 def issue_book():
   a = int(input('Enter Book ID : '))
   b = int(input('Enter User ID : '))
-  query = "select issued_to from books"
+  query = "select id from books where issued_to IS NULL"
   mycur.execute(query)
-  dt = mycur.fetchone()
-  if dt==():
+  dt = mycur.fetchall()
+  print(dt) 
+  if (a,) in dt:
     query = "update books set issued_to = {} where id = {}".format(b,a)
     mycur.execute(query)
     query = "update users set books_assigned = {} where id = {}".format(a,b)
@@ -221,48 +222,48 @@ def update_user():
     del_users()
   elif x == 3:
     mod_users()
-
-print(
-'Hey, What would you like to do?\n'
-' [1] Search book from record\n'
-' [2] Search user from record\n' 
-' [3] Issue a Book\n'
-' [4] Return a Book\n'
-' [5] Update Inventory\n'
-' [6] Update User Records\n'
-)
-n = int(input('Enter Desired Number Option: '))
-
 while True:
-  if n == 1:
-    print('='*100)
-    search_book()
-    print('='*100)
-    break
-  elif n == 2:
-    print('='*100)
-    search_user()
-    print('='*100)
-    break
-  elif n == 3:
-    print('='*100)
-    issue_book()
-    print('='*100)
-    break
-  elif n == 4:
-    print('='*100)
-    return_book()
-    print('='*100)
-    break
-  elif n == 5:
-    print('='*100)
-    update_books()
-    print('='*100)
-    break
-  elif n == 6:
-    print('='*100)
-    update_user()
-    print('='*100)
-    break
-  else:
-    n = int(input('Please Enter a Valid Choice: '))
+  print(
+  'Hey, What would you like to do?\n'
+  ' [1] Search book from record\n'
+  ' [2] Search user from record\n' 
+  ' [3] Issue a Book\n'
+  ' [4] Return a Book\n'
+  ' [5] Update Inventory\n'
+  ' [6] Update User Records\n'
+  )
+  n = int(input('Enter Desired Number Option: '))
+
+  while True:
+    if n == 1:
+      print('='*100)
+      search_book()
+      print('='*100)
+      break
+    elif n == 2:
+      print('='*100)
+      search_user()
+      print('='*100)
+      break
+    elif n == 3:
+      print('='*100)
+      issue_book()
+      print('='*100)
+      break
+    elif n == 4:
+      print('='*100)
+      return_book()
+      print('='*100)
+      break
+    elif n == 5:
+      print('='*100)
+      update_books()
+      print('='*100)
+      break
+    elif n == 6:
+      print('='*100)
+      update_user()
+      print('='*100)
+      break
+    else:
+      n = int(input('Please Enter a Valid Choice: '))
