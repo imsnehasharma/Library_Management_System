@@ -35,7 +35,6 @@ def search_user():
   for R in dt:
      print('%5s'%R[0], '%30s'%R[1], '%20s'%R[2], '%20s'%R[3])
 
-
 def issue_book():
   a = int(input('Enter Book ID : '))
   b = int(input('Enter User ID : '))
@@ -63,6 +62,69 @@ def return_book():
   mycur.execute(query)
   mycon.commit()
   print('The Book is Returned.')
+ 
+def add_books():
+  query = "select Max(id) from books"
+  mycur.execute(query)
+  dt = mycur.fetchone()
+  while True:
+    nm = input('Enter Book Name : ').upper()
+    if nm.upper() == 'EXIT':
+      break
+    an = input('Enter Author Name : ').capitalize()
+    if an.upper() == 'EXIT':
+      break
+    query = "insert into books (name,author_name) values('{}','{}')".format(nm,an)
+    mycur.execute(query)
+    mycon.commit()
+  query = "select * from books where id > {}".format(dt[0])
+  mycur.execute(query)
+  dt = mycur.fetchall()
+  print('Following Books have been added')
+  print('-'*80)
+  print('%5s'%'ID', '%30s'%'Name', '%20s'%"Author's Name", '%20s'%'Issued To' )
+  print('-'*80)
+  for R in dt:
+    print('%5s'%R[0], '%30s'%R[1], '%20s'%R[2], '%20s'%R[3])
+def del_books():
+  while True:
+    a = input('Enter ID of the Book to be Deleted : ')
+    if a.upper() == 'EXIT':
+      break
+    else:
+      query = "delete from books where id = {}".format(int(a))
+      mycur.execute(query)
+      mycon.commit()
+      print('Book of the Given ID has been removed fom Inventory.')
+def mod_books():
+  a = int(input('Enter Book ID : '))
+  if a.upper() == 'EXIT':
+    break
+  else:
+    b = int(input('What would you like to change? \n'
+    '   [1] Book Name \n'
+    '   [2] Author Name \n'))
+    while True:
+      if b == 1:
+        nm = input('Enter New Name : ')
+        query = "update books set name = '{}' where id = {}".format(nm,a)
+        break
+      elif b == 2:
+        an = input('Enter New Author Name : ')
+        query = "update books set author_name = '{}' where id = {}".format(an,a)
+        break
+      else :
+        b = int(input('Please Enter a Valid Choice : '))
+    mycur.execute(query)
+    mycon.commit()
+    query = "select * from books where id = {}".format(a)
+    mycur.execute(query)
+    dt = mycur.fetchone()
+    print('Changes have been made')
+    print('-'*80)
+    print('%5s'%'ID', '%30s'%'Name', '%20s'%"Author's Name", '%20s'%'Issued To' )
+    print('-'*80)
+    print('%5s'%dt[0], '%30s'%dt[1], '%20s'%dt[2], '%20s'%dt[3])
 
 def update_books():
   print(
@@ -70,28 +132,15 @@ def update_books():
   '  [2] Delete Books \n'
   '  [3] Modify Details of Books')
   x = int(input('Enter Desired Number Option : '))
+
+  print("Type 'EXIT' whenever you wish to exit the menu.")
+
   if x == 1:
-    print("Type 'EXIT' whenever you wish to exit the menu.")
-    while True:
-      nm = input('Enter Book Name : ').upper()
-      if nm.upper() == 'EXIT':
-        break
-      an = input('Enter Author Name : ').capitalize()
-      if an.upper() == 'EXIT':
-        break
-      query = "insert into books (name,author_name) values('{}','{}')".format(nm,an)
-      mycur.execute(query)
-      mycon.commit()
-      query = "select * from books"
-      mycur.execute(query)
-      dt = mycur.fetchall()
-      print('-'*80)
-      print('%5s'%'ID', '%30s'%'Name', '%20s'%"Author's Name", '%20s'%'Issued To' )
-      print('-'*80)
-      for R in dt:
-        print('%5s'%R[0], '%30s'%R[1], '%20s'%R[2], '%20s'%R[3])
- 
-     
+    add_books()
+  elif x == 2:
+    del_books()
+  elif x == 3:
+    mod_books()
 
 
 print(
@@ -107,20 +156,34 @@ n = int(input('Enter Desired Number Option: '))
 
 while True:
   if n == 1:
+    print('='*100)
     search_book()
+    print('='*100)
     break
   elif n == 2:
+    print('='*100)
     search_user()
+    print('='*100)
     break
   elif n == 3:
+    print('='*100)
     issue_book()
+    print('='*100)
     break
   elif n == 4:
+    print('='*100)
     return_book()
+    print('='*100)
     break
   elif n == 5:
+    print('='*100)
     update_books()
+    print('='*100)
+    break
   elif n == 6:
+    print('='*100)
     update_user()
+    print('='*100)
+    break
   else:
     n = int(input('Please Enter a Valid Choice: '))
