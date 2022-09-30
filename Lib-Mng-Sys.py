@@ -22,13 +22,22 @@ def search_user():
 def issue_book():
   a = int(input('Enter Book ID : '))
   b = int(input('Enter User ID : '))
-  query = "update books set issued_to = {}".format(b)
+  query = "update books set issued_to = {} where id = {}".format(b,a)
   mycur.execute(query)
-  query = "update users set book_assigned = {}".format(a)
+  query = "update users set book_assigned = {} where id = {}".format(a,b)
+  mycur.execute(query)
+  mycur.commit()
 
+def return_book():
+  a = int(input('Enter Book ID : '))
+  query = "update books set issued_to = NULL where id = {}".format(a)
+  mycur.execute(query)
+  query = "update users set books_assigned = NULL where books_assigned = {}".format(a)
+  mycur.execute(query)
+  mycur.commit()
 
-
-
+def update_inventory():
+  print('a')
 
 
 print(
