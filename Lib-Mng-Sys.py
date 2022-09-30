@@ -95,36 +95,37 @@ def del_books():
       query = "delete from books where id = {}".format(int(a))
       mycur.execute(query)
       mycon.commit()
-      print('Book of the Given ID has been removed fom Inventory.')
+      print('Book of the Given ID has been removed from Inventory.')
 def mod_books():
-  a = int(input('Enter Book ID : '))
-  if a.upper() == 'EXIT':
-    break
-  else:
-    b = int(input('What would you like to change? \n'
-    '   [1] Book Name \n'
-    '   [2] Author Name \n'))
-    while True:
-      if b == 1:
-        nm = input('Enter New Name : ')
-        query = "update books set name = '{}' where id = {}".format(nm,a)
-        break
-      elif b == 2:
-        an = input('Enter New Author Name : ')
-        query = "update books set author_name = '{}' where id = {}".format(an,a)
-        break
-      else :
-        b = int(input('Please Enter a Valid Choice : '))
-    mycur.execute(query)
-    mycon.commit()
-    query = "select * from books where id = {}".format(a)
-    mycur.execute(query)
-    dt = mycur.fetchone()
-    print('Changes have been made')
-    print('-'*80)
-    print('%5s'%'ID', '%30s'%'Name', '%20s'%"Author's Name", '%20s'%'Issued To' )
-    print('-'*80)
-    print('%5s'%dt[0], '%30s'%dt[1], '%20s'%dt[2], '%20s'%dt[3])
+  while True:
+    a = int(input('Enter Book ID : '))
+    if a.upper() == 'EXIT':
+      break
+    else:
+      b = int(input('What would you like to change? \n'
+      '   [1] Book Name \n'
+      '   [2] Author Name \n'))
+      while True:
+        if b == 1:
+          nm = input('Enter New Name : ')
+          query = "update books set name = '{}' where id = {}".format(nm,a)
+          break
+        elif b == 2:
+          an = input('Enter New Author Name : ')
+          query = "update books set author_name = '{}' where id = {}".format(an,a)
+          break
+        else :
+          b = int(input('Please Enter a Valid Choice : '))
+      mycur.execute(query)
+      mycon.commit()
+      query = "select * from books where id = {}".format(a)
+      mycur.execute(query)
+      dt = mycur.fetchone()
+      print('Changes have been made')
+      print('-'*80)
+      print('%5s'%'ID', '%30s'%'Name', '%20s'%"Author's Name", '%20s'%'Issued To' )
+      print('-'*80)
+      print('%5s'%dt[0], '%30s'%dt[1], '%20s'%dt[2], '%20s'%dt[3])
 
 def update_books():
   print(
@@ -142,6 +143,84 @@ def update_books():
   elif x == 3:
     mod_books()
 
+def add_users():
+  query = "select Max(id) from users"
+  mycur.execute(query)
+  dt = mycur.fetchone()
+  while True:
+    nm = input('Enter User Name : ').caitalize()
+    if nm.upper() == 'EXIT':
+      break
+    pn = input('Enter Phone Number : ')
+    if pn.upper() == 'EXIT':
+      break
+    query = "insert into users (name,phone_no) values('{}','{}')".format(nm,pn)
+    mycur.execute(query)
+    mycon.commit()
+  query = "select * from users where id > {}".format(dt[0])
+  mycur.execute(query)
+  dt = mycur.fetchall()
+  print('Following Users have been added')
+  print('-'*80)
+  print('%5s'%'ID', '%30s'%'Name', '%20s'%"Phone Number", '%20s'%'Books Borrowed' )
+  print('-'*80)
+  for R in dt:
+     print('%5s'%R[0], '%30s'%R[1], '%20s'%R[2], '%20s'%R[3])
+def del_users():
+  while True:
+    a = input('Enter ID of the User to be Deleted : ')
+    if a.upper() == 'EXIT':
+      break
+    else:
+      query = "delete from users where id = {}".format(int(a))
+      mycur.execute(query)
+      mycon.commit()
+      print('User of the Given ID has been removed from the User List.')
+def mod_users():
+  while True:
+    a = int(input('Enter User ID : '))
+    if a.upper() == 'EXIT':
+      break
+    else:
+      b = int(input('What would you like to change? \n'
+      '   [1] Name \n'
+      '   [2] Phone Number \n'))
+      while True:
+        if b == 1:
+          nm = input('Enter New Name : ')
+          query = "update users set name = '{}' where id = {}".format(nm,a)
+          break
+        elif b == 2:
+          an = input('Enter New Phone Number : ')
+          query = "update users set phone_no = '{}' where id = {}".format(an,a)
+          break
+        else :
+          b = int(input('Please Enter a Valid Choice : '))
+      mycur.execute(query)
+      mycon.commit()
+      query = "select * from users where id = {}".format(a)
+      mycur.execute(query)
+      dt = mycur.fetchone()
+      print('-'*80)
+      print('%5s'%'ID', '%30s'%'Name', '%20s'%"Phone Number", '%20s'%'Books Borrowed' )
+      print('-'*80)
+      print('%5s'%dt[0], '%30s'%dt[1], '%20s'%dt[2], '%20s'%dt[3])
+
+def update_user():
+  print(
+  '  [1] Add User \n'
+  '  [2] Delete User \n'
+  '  [3] Modify Details of User')
+  x = int(input('Enter Desired Number Option : '))
+
+  print("Type 'EXIT' whenever you wish to exit the menu.")
+
+  if x == 1:
+    add_users()
+  elif x == 2:
+    del_users()
+  elif x == 3:
+    mod_users()
 
 print(
 'Hey, What would you like to do?\n'
