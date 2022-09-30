@@ -145,11 +145,11 @@ def update_books():
     mod_books()
 
 def add_users():
-  query = "select Max(id) from users"
+  query = "select Max(id) from users where id is not null"
   mycur.execute(query)
   dt = mycur.fetchone()
   while True:
-    nm = input('Enter User Name : ').caitalize()
+    nm = input('Enter User Name : ').capitalize()
     if nm.upper() == 'EXIT':
       break
     pn = input('Enter Phone Number : ')
@@ -222,6 +222,8 @@ def update_user():
     del_users()
   elif x == 3:
     mod_users()
+
+
 while True:
   print(
   'Hey, What would you like to do?\n'
@@ -237,31 +239,37 @@ while True:
   while True:
     if n == 1:
       print('='*100)
+      print(' '*40, 'BOOK SEARCH MENU \n')
       search_book()
       print('='*100)
       break
     elif n == 2:
       print('='*100)
+      print(' '*40, 'USER SEARCH MENU \n')
       search_user()
       print('='*100)
       break
     elif n == 3:
       print('='*100)
+      print(' '*40, 'ISSUE BOOK MENU \n')
       issue_book()
       print('='*100)
       break
     elif n == 4:
       print('='*100)
+      print(' '*40, 'RETURN BOOK MENU \n')
       return_book()
       print('='*100)
       break
     elif n == 5:
       print('='*100)
+      print(' '*40, 'UPDATE INVENTORY MENU \n')
       update_books()
       print('='*100)
       break
     elif n == 6:
       print('='*100)
+      print(' '*40, 'UPDATE USER LIST MENU \n')
       update_user()
       print('='*100)
       break
