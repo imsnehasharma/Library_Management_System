@@ -1,1 +1,5 @@
-Hello World!!
+This is the repository for 12A class project.
+Authors include:
+1. Sneha Sharma
+2. Amisha Pal
+3. Shreya Mishra
