@@ -40,6 +40,7 @@ def search_user():
   "#             '*' to see all users              # \n"
   "# '$' to see all users who haven't issued books # \n"
   "#  '$$' to see all users who have issued books  # \n")
+  
   while True:
     if a.upper() == 'EXIT':
       break
@@ -52,7 +53,7 @@ def search_user():
     elif a.isnumeric():
       query = "select * from users where id = {}".format(int(a))
     else :
-      query = "select * from users where name = {}".format(a)
+      query = "select * from users where name = '{}'".format(a)
     mycur.execute(query)
     dt = mycur.fetchall()
     if dt != []:
@@ -163,27 +164,34 @@ def del_books():
       a = input('Enter a Valid ID : ')
       
 def mod_books():
+  query = "select id from books"
+  mycur.execute(query)
+  dt = mycur.fetchall()
   while True:
-    a = int(input('Enter Book ID : '))
+    a = input('Enter Book ID : ')
     if a.upper() == 'EXIT':
       break
+    elif a.isnumeric():
+      if (int(a),) in dt:
+        a = int(a)
+      else:
+        print('Book of the Given ID is not Present in the Inventory.')
+        a = input('Enter Valid ID or Name : ')
+    else:
+      a = input('Enter Valid ID or Name : ')
 
-    b = int(input('What would you like to change? \n'
+    b = input('What would you like to change? \n'
     '   [1] Book Name \n'
-    '   [2] Author Name \n'))
+    '   [2] Author Name \n')
     if b.upper() == 'EXIT':
       break
-    while True:
-      if b == 1:
+    elif int(b) in (1,2):
+      if int(b) == 1:
         nm = input('Enter New Name : ')
         query = "update books set name = '{}' where id = {}".format(nm,a)
-        break
-      elif b == 2:
+      else:
         an = input('Enter New Author Name : ')
         query = "update books set author_name = '{}' where id = {}".format(an,a)
-        break
-      else :
-        b = int(input('Please Enter a Valid Choice : '))
       mycur.execute(query)
       mycon.commit()
       query = "select * from books where id = {}".format(a)
@@ -194,7 +202,10 @@ def mod_books():
       print('%5s'%'ID', '%30s'%'Name', '%20s'%"Author's Name", '%20s'%'Issued To' )
       print('-'*80)
       print('%5s'%dt[0], '%30s'%dt[1], '%20s'%dt[2], '%20s'%dt[3])
-
+      print('.'*85)
+    else:
+      b = input('Enter a Valid Choice : ')
+      
 def update_books():
   print(
   '  [1] Add Books \n'
@@ -389,11 +400,11 @@ while True:
   )
 
   print(' '*50, "** Type 'EXIT' at any point to Return to Main Menu ** \n")
-  try:
-    n = int(input('Enter Desired Number Option: '))
-    main_menu(n)
-  except:
-    n = input('Please Enter a Valid Choice : ')
-    main_menu(n)
+ # try:
+  n = int(input('Enter Desired Number Option: '))
+  main_menu(n)
+ # except:
+  #  n = input('Please Enter a Valid Choice : ')
+   # main_menu(n)
 
  
