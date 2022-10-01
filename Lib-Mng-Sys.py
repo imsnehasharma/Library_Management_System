@@ -501,4 +501,4 @@ while True:
     main_menu(n)
   else:
     print('Please Enter Valid Option.')
- 
+ mycon.close()
