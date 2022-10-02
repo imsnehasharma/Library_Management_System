@@ -86,6 +86,7 @@ def issue_book():
     mycur.execute(query)
     dt = mycur.fetchall()
     query = "select id from users where books_assigned IS NULL"
+    mycur.execute(query)
     ut = mycur.fetchall()
 
     if a.isnumeric() and b.isnumeric():
@@ -95,7 +96,7 @@ def issue_book():
         query = "update users set books_assigned = {} where id = {}".format(int(a),int(b))
         mycur.execute(query)
         mycon.commit()
-        query = "select books.name, users.name from books, users where books.issued_to = users.id"
+        query = "select books.name, users.name from books, users where books.issued_to = users.id and books.id = {}".format(a)
         mycur.execute(query)
         dt = mycur.fetchone()
         print(dt[0],'is Issued to',dt[1])
