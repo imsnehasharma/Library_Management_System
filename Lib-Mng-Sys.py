@@ -1,6 +1,6 @@
 import mysql.connector as mys
 mycon = mys.connect(host='localhost',user='root',password='sharma@1999',database='Library_Management_System')
-mycur = mycon.cursor()
+mycur = mycon.cursor(buffered = True)
 
 
 def search_book():
@@ -345,7 +345,7 @@ def del_users():
 def mod_users():
   query = "select id from users"
   mycur.execute(query)
-  dt = mycur.fetchall()
+  st = mycur.fetchall()
  
   while True:
     a = input('Enter User ID : ')
@@ -354,7 +354,7 @@ def mod_users():
       if a.upper() == 'EXIT':
         return
       elif a.isnumeric():
-        if (int(a),) in dt:
+        if (int(a),) in st:
           a = int(a)
           break
         else:
