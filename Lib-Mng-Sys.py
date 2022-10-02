@@ -123,18 +123,21 @@ def return_book():
     mycur.execute(query)
     dt = mycur.fetchall()
     
-    if (int(a),) in dt:
-      query = "update books set issued_to = NULL where id = {}".format(int(a))
-      mycur.execute(query)
-      query = "update users set books_assigned = NULL where books_assigned = {}".format(int(a))
-      mycur.execute(query)
-      mycon.commit()
-      print('The Book is Returned.')
-      break
+    if a.isnumeric():
+        if (int(a),) in dt:
+          query = "update books set issued_to = NULL where id = {}".format(int(a))
+          mycur.execute(query)
+          query = "update users set books_assigned = NULL where books_assigned = {}".format(int(a))
+          mycur.execute(query)
+          mycon.commit()
+          print('The Book is Returned.')
+          break
+        else:
+          print('The Book was Not Issued.')
+          print('.'*85)
+          a = input('Enter Book ID of an Issued Book : ')
     else:
-      print('The Book was Not Issued.')
-      print('.'*85)
-      a = input('Enter Book ID of an Issued Book : ')
+        a = input("Please Enter ID or type 'EXIT' to reach the Main Menu : ")
  
 def add_books():
   query = "select Max(id) from books"
