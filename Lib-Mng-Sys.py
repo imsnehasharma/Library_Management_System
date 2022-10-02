@@ -195,7 +195,7 @@ def del_books():
 def mod_books():
   query = "select id from books"
   mycur.execute(query)
-  dt = mycur.fetchall()
+  st = mycur.fetchall()
   
   while True:
     a = input('Enter Book ID : ')
@@ -204,7 +204,7 @@ def mod_books():
       if a.upper() == 'EXIT':
         return
       elif a.isnumeric():
-        if (int(a),) in dt:
+        if (int(a),) in st:
           a = int(a)
           break
         else:
